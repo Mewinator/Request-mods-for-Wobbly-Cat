@@ -1,0 +1,234 @@
+<head><link rel="manifest" href="/manifest.json"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7487249208457563"
+     crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="assets/css/navbar.css">
+  <link rel="stylesheet" href="assets/css/footer.css">
+  <link rel="stylesheet" href="assets/css/settings.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://kit.fontawesome.com/204c1cf7c6.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <title>Wobbly Launcher | Popup Browser</title>
+  <link rel="icon" type="image/x-icon" href="assets/img/favicons/Wobbly Cat logo.png">
+</head>
+<body>
+    <!-- Start Navbar Code-->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <input type="checkbox" name="" id="">
+            <div class="hamburger-lines">
+                <span class="line line1"></span>
+                <span class="line line2"></span>
+                <span class="line line3"></span>
+            </div>
+            <ul class="menu-items">
+                <li><a href="home.html">Home</a></li>
+                <li class="dropdown">
+                    <span class="nav-title">Play ⯈<i class="fa-solid fa-angle-down arrow"></i></span>
+                    <ul class="dropdown-menu">
+                        <li><a href="currentg.html">Current</a></li>
+                        <li><a href="versions.html">Versions</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <span class="nav-title">FAQ<i class="fa-solid fa-angle-down arrow"></i></span>
+                    <ul class="dropdown-menu">
+                        <li><a href="rap.html">Report a Problem</a></li>
+                        <li><a href="request.html">Request</a></li>
+                    </ul>
+                </li>
+                <li><a href="popup.html">Open Popup</a></li>
+                <li><a href="settings.html"><i class="fa-solid fa-gear fa-lg"></i></a></li>
+            </ul>
+            <img src="assets/img/favicons/Wobbly Cat logo.png" width="40" height="40" alt="logo small">
+        </div>
+    </nav>
+    <!-- End Navbar Code -->
+    <head>
+        <script>
+        function appendEventCapturedList(elememtId, eventText)
+        {
+            const eventListView = document.getElementById(elememtId);
+            const eventView = document.createElement('li');
+
+            const timeString = new Date().toTimeString();
+            const eventItem = document.createTextNode(`[${timeString}] ${eventText}`);
+
+            eventView.appendChild(eventItem);
+            eventListView.appendChild(eventView);
+        }
+    </script>
+</head>
+<body>
+    <main>
+        <h1>Demo</h1>
+        <hr>
+
+        <h2>URL based PopupWindow</h2>
+        <h3>Action</h3>
+        <button onclick="urlPopupWindow.open()">Open</button>
+        <button onclick="urlPopupWindow.close()">Close</button>
+        <button onclick="urlPopupWindow.closeSilently()">closeSilently</button>
+
+        <h3>See the event list of PopupWindow!</h3>
+        <ol id="url-popup-window-event-list">
+            <li>Not yet.</li>
+        </ol>
+        <hr>
+
+        <h2>Form based PopupWindow</h2>
+        <h3>Settings</h3>
+        <h4>Select http method</h4>
+        <section>
+            <input id="radio-method-get" type="radio" name="method" value="GET" onclick="document.form_demo.method=this.value" checked>
+            <label for="radio-method-get">GET</label>
+            <input id="radio-method-post" type="radio" name="method" value="POST" onclick="document.form_demo.method=this.value">
+            <label for="radio-method-post">POST</label>
+        </section>
+
+        <h4>Input data</h4>
+        <form name="form_demo" method="GET">
+            <ul>
+                <li>
+                    <section>
+                        <label for="text-data1">Data1</label>
+                        <input id="text-data1" type="text" name="data1" value="defaultValue1">
+                    </section>
+                </li>
+                <li>
+                    <section>
+                        <label for="text-data2">Data2</label>
+                        <input id="text-data2" type="text" name="data2" value="defaultValue2">
+                    </section>
+                </li>
+            </ul>
+        </form>
+
+        <h3>Action</h3>
+        <button onclick="formPopupWindow.open()">Open</button>
+        <button onclick="formPopupWindow.close()">Close</button>
+        <button onclick="formPopupWindow.closeSilently()">closeSilently</button>
+
+        <h3>See the event list of PopupWindow!</h3>
+        <ol id="form-popup-window-event-list">
+            <li>Not yet.</li>
+        </ol>
+    </main>
+
+    <script src="assets/js/popup.js"></script>
+    <script>
+        const urlPopupWindow = (function() {
+            let win = null;
+
+            const open = function() {
+                if (win !== null && win.isOpened()) {
+                    alert('You should close the opened popup window.');
+                    win.focus();
+                    return false;
+                }
+
+                const userUrl = prompt("Please enter a URL:");
+                win = new PopupWindow({
+                    url: userUrl,
+                    onBeforeOpen: function() {
+                        appendEventCapturedList('url-popup-window-event-list', 'BeforeOpen.');
+                    },
+                    onAfterClose: function() {
+                        appendEventCapturedList('url-popup-window-event-list', 'AfterClose.');
+                    },
+                });
+
+                return win.open();
+            };
+
+            const close = function() {
+                if (win === null || win.isClosed()) {
+                    return true;
+                }
+
+                return win.close();
+            };
+
+            const closeSilently = function() {
+                if (win === null || win.isClosed()) {
+                    return true;
+                }
+
+                return win.closeSilently();
+            };
+
+            return {
+                open: open,
+                close: close,
+                closeSilently, closeSilently,
+            };
+        })();
+
+        const formPopupWindow = (function() {
+            let win = null;
+
+            const open = function() {
+                if (win !== null && win.isOpened()) {
+                    win.focus();
+                    alert('You should close the opened popup window.');
+                    return false;
+                }
+
+                let url = prompt("Please enter a URL:");
+                if (document.form_demo.method.toUpperCase() === 'POST') {
+                    url = url; // Use the user-provided URL for POST
+                }
+
+                win = new PopupWindow({
+                    form: document.form_demo, // the form
+                    url: url, // action attribute of the form
+                    name: 'demo', // name of opened window
+                    onBeforeOpen: function() {
+                        appendEventCapturedList('form-popup-window-event-list', 'Opened.');
+                    },
+                    onAfterClose: function() {
+                        appendEventCapturedList('form-popup-window-event-list', 'Closed.');
+                    },
+                });
+
+                return win.open();
+            };
+
+            const close = function() {
+                if (win === null || win.isClosed()) {
+                    return true;
+                }
+
+                return win.close();
+            };
+
+            const closeSilently = function() {
+                if (win === null || win.isClosed()) {
+                    return true;
+                }
+
+                return win.closeSilently();
+            };
+
+            return {
+                open: open,
+                close: close,
+                closeSilently, closeSilently,
+            };
+        })();
+    </script>
+</body>
+<!-- Footer Start -->
+      <footer class="footer">
+        <div class="logo-container">
+            <a>Wobbly Launcher</a>
+        </div>
+        <nav class="footer-nav">
+            <a href="request.html" onclick="setIframeType('home');localStorage.setItem('shownameandimg', 'false');localStorage.setItem('storedURL', 'https://docs.google.com/forms/d/e/1FAIpQLSdFEmQEo_Jfwh0leF-wrxOC84ctGsBbWVM-c-EyxqsewvFqWQ');" class="footer-link">Request Features</a>
+            <a href="rap.html" onclick="setIframeType('home');localStorage.setItem('shownameandimg', 'false');localStorage.setItem('storedURL', 'https://docs.google.com/forms/d/e/1FAIpQLScsdUv1E8W7tD3UkYlMNEpKJ-f661k4SXvnkKOq5qllQB77kA');" class="footer-link">Report a Problem</a>
+        </nav>
+    </footer>
+    <!-- Footer End -->
+</body>
